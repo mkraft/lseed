@@ -2,8 +2,6 @@
 
 Utility to seed an LDAP instance with data.
 
-![screenshot](screenshot.png)
-
 ## Help
 
 ```
