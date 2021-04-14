@@ -11,7 +11,7 @@ import (
 	"github.com/go-ldap/ldap"
 )
 
-var ouDN, bindUser, bindPassword, bindHost, photoPath string
+var ouDN, bindUser, bindPassword, bindHost, photoPath, usernamePrefix string
 var bindPort, numGroups, numMembersPerGroup int
 var help bool
 
@@ -24,6 +24,7 @@ func main() {
 	flag.IntVar(&numGroups, "groups", 2, "the number of groups")
 	flag.IntVar(&numMembersPerGroup, "members", 10, "the number of members per group")
 	flag.StringVar(&photoPath, "photo", "", "the path to the profile photo")
+	flag.StringVar(&usernamePrefix, "prefix", "test.", "the username prefix")
 	flag.BoolVar(&help, "help", false, "show help")
 	flag.Parse()
 
@@ -81,7 +82,7 @@ func main() {
 			attributes = append(attributes, ldap.Attribute{Type: "jpegPhoto", Vals: []string{strData}})
 		}
 		err = l.Add(&ldap.AddRequest{
-			DN:         fmt.Sprintf("uid=test.%d,%s", i, ouDN),
+			DN:         fmt.Sprintf("uid=%s%d,%s", usernamePrefix, i, ouDN),
 			Attributes: attributes,
 		})
 		if err != nil {
