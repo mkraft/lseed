@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/cheggaaa/pb/v3"
 	"github.com/go-ldap/ldap"
 )
 
@@ -51,7 +52,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf(".")
 
 	// get profile photo data
 	var strData string
@@ -64,8 +64,12 @@ func main() {
 		strData = string(imageData)
 	}
 
+	userEntriesCount := numGroups * numMembersPerGroup
+
+	bar := pb.StartNew(userEntriesCount + (numGroups * numMembersPerGroup))
+
 	// create users
-	for i := 0; i < (numGroups * numMembersPerGroup); i++ {
+	for i := 0; i < userEntriesCount; i++ {
 		attributes := []ldap.Attribute{
 			{Type: "objectclass", Vals: []string{"iNetOrgPerson"}},
 			{Type: "cn", Vals: []string{fmt.Sprintf("Test%d", i)}},
@@ -83,7 +87,8 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf(".")
+
+		bar.Increment()
 	}
 
 	for i := 0; i < numGroups; i++ {
@@ -104,7 +109,6 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf(".")
 
 		for _, member := range uniqueMembers[1:] {
 			err = l.Modify(&ldap.ModifyRequest{
@@ -116,9 +120,12 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
-			fmt.Printf(".")
+			bar.Increment()
 		}
+		bar.Increment()
 	}
+
+	bar.Finish()
 
 	fmt.Println("\nSuccessfully completed.")
 }
