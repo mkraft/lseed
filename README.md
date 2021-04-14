@@ -2,6 +2,8 @@
 
 Utility to seed an LDAP instance with data.
 
+![screenshot](screenshot.png)
+
 ## Help
 
 ```
@@ -22,6 +24,8 @@ go run lseed.go --help
     	the path to the profile photo
   -port int
     	the bind port (default 389)
+  -prefix string
+    	the username prefix (default "test.")
   -user string
     	the bind user (default "cn=admin,dc=mm,dc=test,dc=com")
 ```
@@ -41,5 +45,13 @@ $ go run lseed.go -photo ~/Pictures/test.jpeg
 Seed 1 group with 100,000 users and then add 30,000 more groups each with 10 users:
 ```
 $ go run lseed.go -groups 1 -members 100000
-$ go run lseed.go -groups 30000 -members 10 -ou "ou=loadtest2,dc=mm,dc=test,dc=com"
+$ go run lseed.go -groups 30000 -members 10 -ou "ou=loadtest2,dc=mm,dc=test,dc=com" -prefix "test2."
+```
+
+## Mattermost-specific
+
+Login as each user:
+
+```
+$ ldapsearch -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" -h "0.0.0.0"  "(objectClass=inetOrgPerson)" | grep "uid:" | cut -d':' -f 2 | xargs -I {} curl 'http://localhost:8065/api/v4/users/login' -X POST -H 'X-Requested-With: XMLHttpRequest' -d '{"device_id":"","login_id":"{}","password":"Password1","token":""}'
 ```
