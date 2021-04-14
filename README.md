@@ -27,9 +27,19 @@ go run lseed.go --help
 ```
 
 ## Examples
+
+Seed with all of the defaults:
 ```
-go run lseed.go
+$ go run lseed.go
 ```
+
+Seed with each user having a profile photo:
 ```
-go run lseed.go -photo ~/Pictures/test.jpeg
+$ go run lseed.go -photo ~/Pictures/test.jpeg
+```
+
+Seed 1 group with 100,000 users and then add 30,000 more groups each with 10 users:
+```
+$ go run lseed.go -groups 1 -members 100000
+$ go run lseed.go -groups 30000 -members 10 -ou "ou=loadtest2,dc=mm,dc=test,dc=com"
 ```
