@@ -51,5 +51,9 @@ $ go run lseed.go -groups 30000 -members 10 -ou "ou=loadtest2,dc=mm,dc=test,dc=c
 Login as each user:
 
 ```
-$ ldapsearch -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" -h "0.0.0.0"  "(objectClass=inetOrgPerson)" | grep "uid:" | cut -d':' -f 2 | xargs -I {} curl 'http://localhost:8065/api/v4/users/login' -X POST -H 'X-Requested-With: XMLHttpRequest' -d '{"device_id":"","login_id":"{}","password":"Password1","token":""}'
+$ ldapsearch -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" \
+-h "0.0.0.0"  "(objectClass=inetOrgPerson)" | grep "uid:" | cut -d':' -f 2 | \
+xargs -I {} curl 'http://localhost:8065/api/v4/users/login' -X POST \
+-H 'X-Requested-With: XMLHttpRequest' \
+-d '{"device_id":"","login_id":"{}","password":"Password1","token":""}'
 ```
