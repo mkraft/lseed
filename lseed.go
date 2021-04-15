@@ -71,18 +71,19 @@ func main() {
 
 	// create users
 	for i := 0; i < userEntriesCount; i++ {
+		username := fmt.Sprintf("%s%d", usernamePrefix, i)
 		attributes := []ldap.Attribute{
 			{Type: "objectclass", Vals: []string{"iNetOrgPerson"}},
 			{Type: "cn", Vals: []string{fmt.Sprintf("Test%d", i)}},
 			{Type: "sn", Vals: []string{"User"}},
-			{Type: "mail", Vals: []string{fmt.Sprintf("success+test%d@simulator.amazonses.com", i)}},
+			{Type: "mail", Vals: []string{fmt.Sprintf("%s@test.com", username)}},
 			{Type: "userPassword", Vals: []string{"Password1"}},
 		}
 		if len(strData) > 0 {
 			attributes = append(attributes, ldap.Attribute{Type: "jpegPhoto", Vals: []string{strData}})
 		}
 		err = l.Add(&ldap.AddRequest{
-			DN:         fmt.Sprintf("uid=%s%d,%s", usernamePrefix, i, ouDN),
+			DN:         fmt.Sprintf("uid=%s,%s", username, ouDN),
 			Attributes: attributes,
 		})
 		if err != nil {
