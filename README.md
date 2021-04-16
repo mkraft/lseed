@@ -42,6 +42,6 @@ $ go run lseed.go -photo ~/Pictures/test.jpeg
 
 Seed 1 group with 100,000 users and then add 30,000 more groups each with 10 users:
 ```
-$ go run lseed.go -groups 1 -members 100000
-$ go run lseed.go -groups 30000 -members 10 -ou "ou=loadtest2,dc=mm,dc=test,dc=com" -prefix "test2."
+$ go run lseed.go -groups 1 -members 100000 -prefix "seed1."
+$ go run lseed.go -groups 30000 -members 10 -prefix "seed2."
 ```

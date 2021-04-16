@@ -11,7 +11,7 @@ import (
 	"github.com/go-ldap/ldap"
 )
 
-var ouDN, bindUser, bindPassword, bindHost, photoPath, usernamePrefix string
+var ouDN, bindUser, bindPassword, bindHost, photoPath, namePrefix string
 var bindPort, numGroups, numMembersPerGroup int
 var help bool
 
@@ -24,7 +24,7 @@ func main() {
 	flag.IntVar(&numGroups, "groups", 2, "the number of groups")
 	flag.IntVar(&numMembersPerGroup, "members", 10, "the number of members per group")
 	flag.StringVar(&photoPath, "photo", "", "the path to the profile photo")
-	flag.StringVar(&usernamePrefix, "prefix", "test.", "the username prefix")
+	flag.StringVar(&namePrefix, "prefix", "test.", "the user uid and group cn prefix")
 	flag.BoolVar(&help, "help", false, "show help")
 	flag.Parse()
 
@@ -50,7 +50,7 @@ func main() {
 			{Type: "objectclass", Vals: []string{"organizationalunit"}},
 		},
 	})
-	if err != nil {
+	if err != nil && !ldap.IsErrorWithCode(err, ldap.LDAPResultEntryAlreadyExists) {
 		log.Fatal(err)
 	}
 
@@ -71,7 +71,7 @@ func main() {
 
 	// create users
 	for i := 0; i < userEntriesCount; i++ {
-		username := fmt.Sprintf("%s%d", usernamePrefix, i)
+		username := fmt.Sprintf("%s%d", namePrefix, i)
 		attributes := []ldap.Attribute{
 			{Type: "objectclass", Vals: []string{"iNetOrgPerson"}},
 			{Type: "cn", Vals: []string{fmt.Sprintf("Test%d", i)}},
@@ -94,7 +94,7 @@ func main() {
 	}
 
 	for i := 0; i < numGroups; i++ {
-		groupDN := fmt.Sprintf("cn=tgroup-%d,%s", i, ouDN)
+		groupDN := fmt.Sprintf("cn=%s%d,%s", namePrefix, i, ouDN)
 
 		var uniqueMembers []string
 		for j := 0; j < numMembersPerGroup; j++ {
