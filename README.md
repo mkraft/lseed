@@ -54,17 +54,20 @@ $ go run lseed.go -groups 30000 -members 10 -prefix "seed2."
 Group:
 
 ```bash
-$ ldapsearch -LLL -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" -h "0.0.0.0"  "(objectClass=groupOfUniqueNames)" dn | grep "dn:" | wc -l
+$ ldapsearch -LLL -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" \
+-h "0.0.0.0"  "(objectClass=groupOfUniqueNames)" dn | grep "dn:" | wc -l
 ```
 
 Users:
 
 ```bash
-$ ldapsearch -LLL -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" -h "0.0.0.0"  "(objectClass=inetOrgPerson)" dn | grep "dn:" | wc -l
+$ ldapsearch -LLL -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" \
+-h "0.0.0.0"  "(objectClass=inetOrgPerson)" dn | grep "dn:" | wc -l
 ```
 
 Group members:
 
 ```bash
-$ ldapsearch -LLL -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" -h "0.0.0.0"  "(objectClass=groupOfUniqueNames)" uniqueMember | grep "uniqueMember:" | wc -l
+$ ldapsearch -LLL -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" \
+-h "0.0.0.0"  "(objectClass=groupOfUniqueNames)" uniqueMember | grep "uniqueMember:" | wc -l
 ```
