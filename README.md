@@ -4,7 +4,7 @@ Utility to seed an LDAP instance with data.
 
 ## Help
 
-```
+```bash
 go run lseed.go --help
   -groups int
     	the number of groups (default 2)
@@ -31,17 +31,40 @@ go run lseed.go --help
 ## Examples
 
 Seed with all of the defaults:
-```
+
+```bash
 $ go run lseed.go
 ```
 
 Seed with each user having a profile photo:
-```
+
+```bash
 $ go run lseed.go -photo ~/Pictures/test.jpeg
 ```
 
 Seed 1 group with 100,000 users and then add 30,000 more groups each with 10 users:
-```
+
+```bash
 $ go run lseed.go -groups 1 -members 100000 -prefix "seed1."
 $ go run lseed.go -groups 30000 -members 10 -prefix "seed2."
+```
+
+## LDAP count queries
+
+Group:
+
+```bash
+$ ldapsearch -LLL -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" -h "0.0.0.0"  "(objectClass=groupOfUniqueNames)" dn | grep "dn:" | wc -l
+```
+
+Users:
+
+```bash
+$ ldapsearch -LLL -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" -h "0.0.0.0"  "(objectClass=inetOrgPerson)" dn | grep "dn:" | wc -l
+```
+
+Group members:
+
+```bash
+$ ldapsearch -LLL -x -D "cn=admin,dc=mm,dc=test,dc=com" -w "mostest" -b "dc=mm,dc=test,dc=com" -h "0.0.0.0"  "(objectClass=groupOfUniqueNames)" uniqueMember | grep "uniqueMember:" | wc -l
 ```
