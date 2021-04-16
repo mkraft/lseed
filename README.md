@@ -5,7 +5,7 @@ Utility to seed an LDAP instance with data.
 ## Help
 
 ```bash
-go run lseed.go --help
+$ go run lseed.go --help
   -groups int
     	the number of groups (default 2)
   -help
@@ -23,7 +23,7 @@ go run lseed.go --help
   -port int
     	the bind port (default 389)
   -prefix string
-    	the username prefix (default "test.")
+    	the user uid and group cn prefix (default "test.")
   -user string
     	the bind user (default "cn=admin,dc=mm,dc=test,dc=com")
 ```
