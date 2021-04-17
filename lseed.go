@@ -98,7 +98,8 @@ func main() {
 
 		var uniqueMembers []string
 		for j := 0; j < numMembersPerGroup; j++ {
-			uniqueMembers = append(uniqueMembers, fmt.Sprintf("uid=test.%d,%s", j+(numMembersPerGroup*i), ouDN))
+			username := fmt.Sprintf("%s%d", namePrefix, j+(numMembersPerGroup*i))
+			uniqueMembers = append(uniqueMembers, fmt.Sprintf("uid=%s,%s", username, ouDN))
 		}
 
 		err = l.Add(&ldap.AddRequest{
