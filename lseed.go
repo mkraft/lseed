@@ -21,7 +21,7 @@ func main() {
 	flag.StringVar(&bindPassword, "password", "mostest", "the bind password")
 	flag.StringVar(&bindHost, "host", "0.0.0.0", "the bind host")
 	flag.IntVar(&bindPort, "port", 389, "the bind port")
-	flag.IntVar(&numGroups, "groups", 2, "the number of groups")
+	flag.IntVar(&numGroups, "groups", 1, "the number of groups")
 	flag.IntVar(&numMembersPerGroup, "members", 10, "the number of members per group")
 	flag.StringVar(&photoPath, "photo", "", "the path to the profile photo")
 	flag.StringVar(&namePrefix, "prefix", "test.", "the user uid and group cn prefix")
