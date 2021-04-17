@@ -45,8 +45,8 @@ $ go run lseed.go -photo ~/Pictures/test.jpeg
 Seed 1 group with 100,000 users and then add 30,000 more groups each with 10 users:
 
 ```bash
-$ go run lseed.go -groups 1 -members 100000 -prefix "test1."
-$ go run lseed.go -groups 30000 -members 10 -prefix "test2."
+$ go run lseed.go -groups 1 -members 250000 -prefix "test1."
+$ go run lseed.go -groups 25000 -members 10 -prefix "test2."
 ```
 
 ## LDAP count queries
